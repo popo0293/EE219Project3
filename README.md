@@ -1,40 +1,42 @@
-# EE219 Project 2
+# EE219 Project 3
 
 ### Team members:
-  
-Yichen Wu 504294181  
-email: wyc20020111@ucla.edu  
+* **Yin Fei** 404284074
 
-Siyuan Chen 405024391
+* **Yichen Wu** 504294181
+
+* **Siyuan Chen** 405024391
+
+* **Ruchen Zhen** 205036408
 
 ### Required Packages:
-nltk v3.2.5  
+python 3.6
 numpy v1.14.0  
 scikit-learn v0.19.1  
-scipy 1.0.0  
+scipy v1.0.0  
 matplotlib v2.1.2  
+pandas v0.22.0   
+surprise v0.1  
+scikit-surprise v1.0.5
 
 ### How to run
 Use Jupyter notebook: 
-> * Either run Jupyter notebook locally or go to https://try.jupyter.org/
-> * open *project2.ipynb* and directly execute cells inside the notebook.
+> * Either run Jupyter notebook locally or go to __*https://try.jupyter.org/*__
+> * open ***project3.ipynb*** and directly execute cells inside the notebook.
 
+Run with python locally:
+> * Run the single ***project3.py*** file
 
 Recommend:
 > * in the git repository, precomputed results are saved in pickle files to save your computation time
-> * git clone https://github.com/popo0293/EE219Project2
+> * git clone __*https://github.com/popo0293/EE219Project3*__
 
 
-### Results
+### Results and Report
 A webpage snapshot is also provided:
-> *project2_result.png*
+> ***project3_report.png***
 
-Or you may directly open *project2.ipynb* on github
+Or you may directly open ***project3.ipynb*** on github
 
 The pdf version cuts off some of the codes, but good for graphs
-> *project2.pdf*
-
-#### Report
-A word version and a pdf version is provided:
-> * *pj2_report.docx*
-> * *pj2_report.pdf*
+> ***project3_report.pdf***
