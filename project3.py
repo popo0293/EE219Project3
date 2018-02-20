@@ -13,7 +13,7 @@ print("(number of users, number of rated movies): ", R.shape)
 user_count = R.shape[0]
 movie_count = R.shape[1]
 max_rating_count = user_count*movie_count
-rating_count = r_data.size/3
+rating_count = len(r_data.rating.tolist())
 sparsity = rating_count*1.0/max_rating_count
 print("Matrix sparsity = %0.4f" % sparsity)
 
@@ -79,4 +79,10 @@ $r_{uk}$ : Rating of user $u$ for item $k$
 $$\mu_u = \frac{\Sigma_{i\in I_{u}} r_{ui}}{\mid I_u \mid}$$
 '''
 
-# Question 8
+# Question
+'''markdown
+$I_{u} \cap I_{v}$ represents the indices of movies that are rated by both user $u$ 
+and user $v$. It's possible that this intersection be the empty set ($\emptyset$), 
+given the sparsity of the matrix. It happens when user $u$ has not rated any movie 
+that user $v$ has.
+'''
