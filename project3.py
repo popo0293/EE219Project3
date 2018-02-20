@@ -130,7 +130,7 @@ else:
     pickle.dump(rmse_lst, open("./rmse_lst.pkl", "wb"))
     pickle.dump(mae_lst, open("./mae_lst.pkl", "wb"))
 
-plt.plot(xaxis, mae_lst)
+plt.plot(k_lst, mae_lst)
 plt.xlabel('number of neighbors')
 plt.ylabel('average MAE value')
 plt.title('MAE vs k')
