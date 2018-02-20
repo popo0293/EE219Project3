@@ -2,6 +2,19 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+import logging
+import pickle
+import os
+from logging.config import fileConfig
+
+# create logger
+fileConfig('logging_config.ini')
+logger = logging.getLogger()
+logger.setLevel("WARNING")
+# logger.setLevel("INFO")
+
+GET_DATA_FROM_FILES = True
+
 # load data
 r_data = pd.read_csv('data/ratings.csv', header=0, usecols=[0, 1, 2])
 print(r_data.head())
@@ -88,8 +101,39 @@ that user $v$ has.
 '''
 
 # Question 9
+# Question 10
+import surprise
 from surprise import KNNBasic, KNNWithMeans
 from surprise import Dataset
-from surprise.model_selection.validation import cross_validate
+from surprise.model_selection import cross_validate
 
-k_lst = [2, 3, 5, 8, 12, 20, 30, 50, 70, 100]
+data = Dataset.load_builtin('ml-100k')
+
+k_lst = range(2, 101, 2)
+
+sim_options = {'name': 'pearson'}
+rmse_lst = []
+mae_lst = []
+
+if GET_DATA_FROM_FILES and os.path.isfile("./rmse_lst.pkl") \
+        and os.path.isfile("./mae_lst.pkl"):
+    logging.info("Loading rmse_lst and mae_lst.")
+    rmse_lst = pickle.load(open("./rmse_lst.pkl", "rb"))
+    mae_lst = pickle.load(open("./mae_lst.pkl", "rb"))
+else:
+    for k in k_lst:
+        algo = surprise.prediction_algorithms.knns.KNNWithMeans(k=k, sim_options=sim_options)
+        result = cross_validate(algo, data, measures=['RMSE', 'MAE'], cv=10)
+        rmse_lst.append(np.mean(result['test_rmse']))
+        mae_lst.append(np.mean(result['test_mae']))
+
+    pickle.dump(rmse_lst, open("./rmse_lst.pkl", "wb"))
+    pickle.dump(mae_lst, open("./mae_lst.pkl", "wb"))
+
+plt.plot(xaxis, mae_lst)
+plt.xlabel('number of neighbors')
+plt.ylabel('average MAE value')
+plt.title('MAE vs k')
+plt.show()
+
+# chose minimum k =12
