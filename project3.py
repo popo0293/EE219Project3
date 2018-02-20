@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 # load data
 r_data = pd.read_csv('data/ratings.csv', header=0, usecols=[0, 1, 2])
 print(r_data.head())
-R = r_data.pivot_table(index='userId', columns='movieId', values='rating', fill_value=0).values
+R = r_data.pivot_table(index='userId', columns='movieId',
+                       values='rating', fill_value=0).values
 print("(number of users, number of rated movies): ", R.shape)
 
 # Question 1
@@ -51,8 +52,10 @@ ax.set_ylabel("rating count")
 plt.show()
 
 # Question 5
-# ToDo: Explain the salient features of the distribution found in question 3
-# and their implications for the recommendation process.
+'''
+ToDo: Explain the salient features of the distribution found in question 3 
+and their implications for the recommendation process.
+'''
 
 # Question 6
 plt.figure()
@@ -65,3 +68,15 @@ ax.set_title("Distribution of ratings among users")
 ax.set_xlabel("most active to least active")
 ax.set_ylabel("rating count")
 plt.show()
+
+# Question 7
+'''markdown
+$I_u$ : Set of item indices for which ratings have been specifed by user $u$  
+$I_v$ : Set of item indices for which ratings have been specifed by user $v$  
+$\mu_u$ : Mean rating for user $u$ computed using her specifed ratings  
+$r_{uk}$ : Rating of user $u$ for item $k$  
+
+$$\mu_u = \frac{\Sigma_{i\in I_{u}} r_{ui}}{\mid I_u \mid}$$
+'''
+
+# Question 8
