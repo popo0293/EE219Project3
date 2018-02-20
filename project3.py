@@ -123,7 +123,7 @@ if GET_DATA_FROM_FILES and os.path.isfile("./rmse_lst.pkl") \
 else:
     for k in k_lst:
         algo = surprise.prediction_algorithms.knns.KNNWithMeans(k=k, sim_options=sim_options)
-        result = cross_validate(algo, data, measures=['RMSE', 'MAE'], cv=10)
+        result = cross_validate(algo, data, measures=['RMSE', 'MAE'], cv=10, n_jobs=-2)
         rmse_lst.append(np.mean(result['test_rmse']))
         mae_lst.append(np.mean(result['test_mae']))
 
