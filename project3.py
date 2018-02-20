@@ -18,3 +18,13 @@ sparsity = rating_count*1.0/max_rating_count
 print("Matrix sparsity = %0.4f" % sparsity)
 
 # Question 2
+plt.figure()
+ax = plt.subplot(111)
+ratings = data.filter(items=['rating'])
+xrange = np.arange(0, 5.5, 0.5)
+ax.hist(ratings.values, bins=xrange)
+ax.set_xticks(xrange)
+plt.show()
+
+# Question 3
+
