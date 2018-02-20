@@ -19,7 +19,7 @@ GET_DATA_FROM_FILES = True
 r_data = pd.read_csv('data/ratings.csv', header=0, usecols=[0, 1, 2])
 print(r_data.head())
 R = r_data.pivot_table(index='userId', columns='movieId',
-                       values='rating', fill_value=0).values
+                       values='rating').values
 print("(number of users, number of rated movies): ", R.shape)
 
 # Question 1
@@ -44,7 +44,7 @@ plt.show()
 
 # Question 3
 plt.figure()
-movie_rating_count = np.count_nonzero(R, axis=0)
+movie_rating_count = np.count_nonzero(~np.isnan(R), axis=0)
 sorted_mrc = sorted(movie_rating_count, reverse=True)
 ax = plt.subplot(111)
 ax.plot(range(len(movie_rating_count)), sorted_mrc, '-')
@@ -55,7 +55,7 @@ plt.show()
 
 # Question 4
 plt.figure()
-user_rating_count = np.count_nonzero(R, axis=1)
+user_rating_count = np.count_nonzero(~np.isnan(R), axis=1)
 sorted_urc = sorted(user_rating_count, reverse=True)
 ax = plt.subplot(111)
 ax.plot(range(len(user_rating_count)), sorted_urc, '-')
@@ -73,7 +73,7 @@ and their implications for the recommendation process.
 # Question 6
 plt.figure()
 ax = plt.subplot(111)
-movie_var = np.var(R, axis=0)
+movie_var = np.nanvar(R, axis=0)
 var_range = np.arange(min(movie_var), max(movie_var)+0.5, 0.5)
 ax.hist(movie_var, bins=var_range)
 ax.set_xticks(xrange)
@@ -136,4 +136,9 @@ plt.ylabel('average MAE value')
 plt.title('MAE vs k')
 plt.show()
 
+plt.plot(k_lst, rmse_lst)
+plt.xlabel('number of neighbors')
+plt.ylabel('average RMSE value')
+plt.title('RMSE vs k')
+plt.show()
 # chose minimum k =12
