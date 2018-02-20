@@ -88,3 +88,8 @@ that user $v$ has.
 '''
 
 # Question 9
+from surprise import KNNBasic, KNNWithMeans
+from surprise import Dataset
+from surprise.model_selection.validation import cross_validate
+
+k_lst = [2, 3, 5, 8, 12, 20, 30, 50, 70, 100]
