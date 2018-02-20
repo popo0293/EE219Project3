@@ -79,10 +79,12 @@ $r_{uk}$ : Rating of user $u$ for item $k$
 $$\mu_u = \frac{\Sigma_{i\in I_{u}} r_{ui}}{\mid I_u \mid}$$
 '''
 
-# Question
+# Question 8
 '''markdown
 $I_{u} \cap I_{v}$ represents the indices of movies that are rated by both user $u$ 
 and user $v$. It's possible that this intersection be the empty set ($\emptyset$), 
 given the sparsity of the matrix. It happens when user $u$ has not rated any movie 
 that user $v$ has.
 '''
+
+# Question 9
