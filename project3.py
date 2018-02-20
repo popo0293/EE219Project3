@@ -27,4 +27,10 @@ ax.set_xticks(xrange)
 plt.show()
 
 # Question 3
+plt.figure()
+individual_rating_count = np.count_nonzero(R, axis=0)
+sorted_irc = sorted(individual_rating_count, reverse=True)
+ax = plt.subplot(111)
+ax.plot(range(len(individual_rating_count)), sorted_irc, '-')
+plt.show()
 
