@@ -28,9 +28,29 @@ plt.show()
 
 # Question 3
 plt.figure()
-individual_rating_count = np.count_nonzero(R, axis=0)
-sorted_irc = sorted(individual_rating_count, reverse=True)
+movie_rating_count = np.count_nonzero(R, axis=0)
+sorted_mrc = sorted(movie_rating_count, reverse=True)
 ax = plt.subplot(111)
-ax.plot(range(len(individual_rating_count)), sorted_irc, '-')
+ax.plot(range(len(movie_rating_count)), sorted_mrc, '-')
 plt.show()
 
+# Question 4
+plt.figure()
+user_rating_count = np.count_nonzero(R, axis=1)
+sorted_urc = sorted(user_rating_count, reverse=True)
+ax = plt.subplot(111)
+ax.plot(range(len(user_rating_count)), sorted_urc, '-')
+plt.show()
+
+# Question 5
+# ToDo: Explain the salient features of the distribution found in question 3
+# and their implications for the recommendation process.
+
+# Question 6
+plt.figure()
+ax = plt.subplot(111)
+movie_var = np.var(R, axis=0)
+var_range = np.arange(min(movie_var), max(movie_var)+0.5, 0.5)
+ax.hist(movie_var, bins=var_range)
+ax.set_xticks(xrange)
+plt.show()
