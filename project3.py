@@ -7,6 +7,13 @@ import pickle
 import os
 from logging.config import fileConfig
 
+import surprise
+from surprise import Dataset
+from surprise.model_selection import cross_validate
+from surprise import accuracy
+from surprise import Reader
+from surprise.model_selection import KFold
+
 # create logger
 fileConfig('logging_config.ini')
 logger = logging.getLogger()
@@ -102,10 +109,6 @@ that user $v$ has.
 
 # Question 9
 # Question 10
-import surprise
-from surprise import KNNBasic, KNNWithMeans
-from surprise import Dataset
-from surprise.model_selection import cross_validate
 
 data = Dataset.load_builtin('ml-100k')
 
@@ -137,4 +140,133 @@ plt.ylabel('average MAE and RMSE value')
 plt.legend(handles=[l1, l2])
 plt.show()
 
+# Question 11
 # chose minimum k =12
+
+# Question 12-14
+
+def trim_popular(testset):
+    trimmed = []
+    mat = np.array(testset, dtype=[('u', int), ('m', int), ('r', float)])
+    mat.sort(order='m')
+    counter = 0
+    lastm = mat[0][1]
+    for u, m, r in mat:
+        if m != lastm:
+            if counter <= 2:
+                for i in range(counter):
+                    trimmed.pop(-1)
+
+            counter = 0
+            lastm = m
+
+        counter += 1
+        trimmed.append([u, m, r])
+
+    if counter <= 2:
+        for i in range(counter):
+            trimmed.pop(-1)
+
+    return trimmed
+
+
+def trim_unpopular(testset):
+    trimmed = []
+    mat = np.array(testset, dtype=[('u', int), ('m', int), ('r', float)])
+    mat.sort(order='m')
+    counter = 0
+    lastm = mat[0][1]
+    for u, m, r in mat:
+        if m != lastm:
+            if counter > 2:
+                for i in range(counter):
+                    trimmed.pop(-1)
+
+            counter = 0
+            lastm = m
+
+        counter += 1
+        trimmed.append([u, m, r])
+
+    if counter > 2:
+        for i in range(counter):
+            trimmed.pop(-1)
+
+    return trimmed
+
+
+def trim_highvar(testset):
+    trimmed = []
+    mat = np.array(testset, dtype=[('u', int), ('m', int), ('r', float)])
+    mat.sort(order='m')
+    counter = 0
+    temp_r = []
+    lastm = mat[0][1]
+    for u, m, r in mat:
+        if m != lastm:
+            if counter < 5 or np.var(temp_r) < 2:
+                for i in range(counter):
+                    trimmed.pop(-1)
+
+            counter = 0
+            temp_r = []
+            lastm = m
+
+        counter += 1
+        temp_r.append(r)
+        trimmed.append([u, m, r])
+
+    if counter < 5:
+        for i in range(counter) or np.var(temp_r) < 2:
+            trimmed.pop(-1)
+
+    return trimmed
+
+
+kf = KFold(n_splits=10)
+
+# A reader is still needed but only the rating_scale param is requiered.
+reader = Reader(rating_scale=(0.5, 5))
+data = Dataset.load_from_df(r_data[['userId', 'movieId', 'rating']], reader)
+
+rmse_pop = []
+rmse_unpop = []
+rmse_highvar = []
+
+if GET_DATA_FROM_FILES and os.path.isfile("./rmse_pop.pkl")\
+                    and os.path.isfile("./rmse_unpop.pkl")\
+                    and os.path.isfile("./rmse_highvar.pkl"):
+    logging.info("Loading rmse_pop, rmse_unpop and rmse_highvar.")
+    rmse_pop = pickle.load(open("./rmse_pop.pkl", "rb"))
+    rmse_unpop = pickle.load(open("./rmse_unpop.pkl", "rb"))
+    rmse_highvar = pickle.load(open("./rmse_highvar.pkl", "rb"))
+else:
+    for k in k_lst:
+        rmse_temp_pop = []
+        rmse_temp_unpop = []
+        rmse_temp_highvar = []
+        algo = surprise.prediction_algorithms.knns.KNNWithMeans(k=k, sim_options=sim_options)
+        for trainset,testset in kf.split(data):
+            algo.fit(trainset)
+            predictions_pop = algo.test(trim_popular(testset))
+            predictions_unpop = algo.test(trim_unpopular(testset))
+            predictions_highvar = algo.test(trim_highvar(testset))
+            rmse_temp_pop.append(accuracy.rmse(predictions_pop))
+            rmse_temp_unpop.append(accuracy.rmse(predictions_unpop))
+            rmse_temp_highvar.append(accuracy.rmse(predictions_highvar))
+        rmse_pop.append(np.mean(rmse_temp_pop))
+        rmse_unpop.append(np.mean(rmse_temp_unpop))
+        rmse_highvar.append(np.mean(rmse_temp_highvar))
+
+    pickle.dump(rmse_pop, open("./rmse_pop.pkl", "wb"))
+    pickle.dump(rmse_unpop, open("./rmse_unpop.pkl", "wb"))
+    pickle.dump(rmse_highvar, open("./rmse_highvar.pkl", "wb"))
+
+
+l1, = plt.plot(k_lst, rmse_pop, 'r-', label='count>2')
+l2, = plt.plot(k_lst, rmse_unpop, 'b-.', label='count<=2')
+l3, = plt.plot(k_lst, rmse_highvar, 'g:', label='count>=5 and var>2')
+plt.xlabel('number of neighbors (k)')
+plt.ylabel('average RMSE value')
+plt.legend(handles=[l1, l2, l3])
+plt.show()
