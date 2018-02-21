@@ -216,8 +216,8 @@ def trim_highvar(testset):
         temp_r.append(r)
         trimmed.append([u, m, r])
 
-    if counter < 5:
-        for i in range(counter) or np.var(temp_r) < 2:
+    if counter < 5 or np.var(temp_r) < 2:
+        for i in range(counter):
             trimmed.pop(-1)
 
     return trimmed
