@@ -130,15 +130,11 @@ else:
     pickle.dump(rmse_lst, open("./rmse_lst.pkl", "wb"))
     pickle.dump(mae_lst, open("./mae_lst.pkl", "wb"))
 
-plt.plot(k_lst, mae_lst)
+l1, = plt.plot(k_lst, mae_lst, 'r-', label='MAE')
+l2, = plt.plot(k_lst, rmse_lst, 'b-.', label='RMSE')
 plt.xlabel('number of neighbors')
-plt.ylabel('average MAE value')
-plt.title('MAE vs k')
+plt.ylabel('average MAE and RMSE value')
+plt.legend(handles=[l1, l2])
 plt.show()
 
-plt.plot(k_lst, rmse_lst)
-plt.xlabel('number of neighbors')
-plt.ylabel('average RMSE value')
-plt.title('RMSE vs k')
-plt.show()
 # chose minimum k =12
