@@ -24,9 +24,6 @@ Use Jupyter notebook:
 > * Either run Jupyter notebook locally or go to __*https://try.jupyter.org/*__
 > * open ***project3.ipynb*** and directly execute cells inside the notebook.
 
-Run with python locally:
-> Run the single ***project3.py*** file
-
 Recommend:
 >  in the git repository, precomputed results are saved in pickle files to save your computation time
 > > **git clone https://github.com/popo0293/EE219Project3**
@@ -38,5 +35,3 @@ A webpage snapshot is also provided:
 
 Or you may directly open ***project3.ipynb*** on github
 
-The pdf version cuts off some of the codes, but good for graphs
-> ***project3_report.pdf***
