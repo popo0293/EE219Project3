@@ -21,17 +21,20 @@ scikit-surprise v1.0.5
 
 ### How to run
 Use Jupyter notebook: 
-> * Either run Jupyter notebook locally or go to __*https://try.jupyter.org/*__
-> * open ***project3.ipynb*** and directly execute cells inside the notebook.
+> 1. run Jupyter notebook locally
+> 2. open ***project3.ipynb*** and directly execute cells inside the notebook.
 
 Recommend:
 >  in the git repository, precomputed results are saved in pickle files to save your computation time
 > > **git clone https://github.com/popo0293/EE219Project3**
 
-
 ### Results and Report
+An automatically generated pdf file contains the project report (with jupyter nbconvert):
+> ***Project3_with_report.pdf***
+
 A webpage snapshot is also provided:
 > ***project3_report.png***
 
-Or you may directly open ***project3.ipynb*** on github
+Or you may directly open ***project3_with_report.ipynb*** on github:  
+**https://github.com/popo0293/EE219Project3/blob/master/Project3_with_report.pdf**
 
