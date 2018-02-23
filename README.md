@@ -36,5 +36,5 @@ A webpage snapshot is also provided:
 > ***project3_report.png***
 
 Or you may directly open ***project3_with_report.ipynb*** on github:  
-**https://github.com/popo0293/EE219Project3/blob/master/Project3_with_report.pdf**
+**https://github.com/popo0293/EE219Project3/blob/master/Project3_with_report.ipynb**
 
